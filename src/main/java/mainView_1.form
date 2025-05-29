@@ -903,7 +903,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace pref="19" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1292,10 +1292,6 @@
                     <Property name="text" type="java.lang.String" value="Inventaris Obat"/>
                     <Property name="iconTextGap" type="int" value="10"/>
                   </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                  </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanel_IJOIJO_OBAT">
                   <Properties>
@@ -1303,10 +1299,6 @@
                       <Color blue="99" green="99" red="0" type="rgb"/>
                     </Property>
                   </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                  </AuxValues>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -1365,10 +1357,6 @@
                               </Border>
                             </Property>
                           </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                          </AuxValues>
 
                           <Layout>
                             <DimensionLayout dim="0">
@@ -1382,7 +1370,7 @@
                                               <Component id="btnHapus_Obat" min="-2" pref="166" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="btnKembali_Obat" min="-2" pref="166" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="1006" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -1449,8 +1437,8 @@
                                       <EmptySpace pref="40" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="btnTambah_Obat" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                                          <Component id="btnKembali_Obat" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                           <Component id="btnHapus_Obat" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                                          <Component id="btnKembali_Obat" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
@@ -1465,10 +1453,6 @@
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="ID Obat"/>
                               </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel_Nama_Obat">
                               <Properties>
@@ -1477,15 +1461,8 @@
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Nama Obat"/>
                               </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JTextField" name="txtField_ID_OBAT">
-                              <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtField_ID_OBATActionPerformed"/>
-                              </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel_Ketersediaan_Obat">
                               <Properties>
@@ -1494,10 +1471,6 @@
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Ketersediaan"/>
                               </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel_Banyak_Obat">
                               <Properties>
@@ -1506,10 +1479,6 @@
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Banyak Obat"/>
                               </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JButton" name="jButton_Cari_Obat">
                               <Properties>
@@ -1519,9 +1488,6 @@
                                 <Property name="text" type="java.lang.String" value="Cari"/>
                                 <Property name="toolTipText" type="java.lang.String" value=""/>
                               </Properties>
-                              <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_Cari_ObatActionPerformed"/>
-                              </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="btnTambah_Obat">
                               <Properties>
@@ -1532,6 +1498,17 @@
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambah_ObatActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="btnHapus_Obat">
+                              <Properties>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                  <Font name="Segoe UI" size="12" style="1"/>
+                                </Property>
+                                <Property name="text" type="java.lang.String" value="HAPUS"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHapus_ObatActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="btnKembali_Obat">
@@ -1558,12 +1535,8 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Bodoni MT" size="18" style="1"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="Harga Total Obat"/>
+                                <Property name="text" type="java.lang.String" value="Harga Obat"/>
                               </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JTextField" name="jTextField_Harga_Obat">
                               <Properties>
@@ -1574,15 +1547,22 @@
                               </Events>
                             </Component>
                             <Component class="javax.swing.JSpinner" name="jSpinner_BanyakObat">
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="JSpinner spinner = new JSpinner();&#xa;&#xa;// Ambil editor dan komponennya&#xa;JComponent editor = spinner.getEditor();&#xa;JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();&#xa;&#xa;// Ambil parent dari text field&#xa;Container parent = tf.getParent();&#xa;parent.setLayout(new BorderLayout());&#xa;&#xa;// Ambil tombol spinner&#xa;Component[] comps = parent.getComponents();&#xa;for (Component c : comps) {&#xa;    if (c instanceof JButton) {&#xa;        parent.remove(c); // Hapus dari kanan&#xa;        parent.add(c, BorderLayout.WEST); // Tambahkan ke kiri&#xa;    }&#xa;}"/>
-                                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JSpinner()"/>
-                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JComboBox" name="jComboBox_Nama_Obat">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="0"/>
+                                  <StringArray count="10">
+                                    <StringItem index="0" value="Paracetamol"/>
+                                    <StringItem index="1" value="OBH (Obat Batuk Hitam)"/>
+                                    <StringItem index="2" value="Antasida"/>
+                                    <StringItem index="3" value="Amoxicillin"/>
+                                    <StringItem index="4" value="Loperamide"/>
+                                    <StringItem index="5" value="CTM (Chlorpheniramine)"/>
+                                    <StringItem index="6" value="Loratadine"/>
+                                    <StringItem index="7" value="Betadine"/>
+                                    <StringItem index="8" value="Metformin"/>
+                                    <StringItem index="9" value="Vitamin C / Suplemen"/>
+                                  </StringArray>
                                 </Property>
                               </Properties>
                               <Events>
@@ -1591,18 +1571,6 @@
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                               </AuxValues>
-                            </Component>
-                            <Component class="javax.swing.JButton" name="btnHapus_Obat">
-                              <Properties>
-                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                  <Font name="Segoe UI" size="12" style="1"/>
-                                </Property>
-                                <Property name="text" type="java.lang.String" value="Hapus"/>
-                                <Property name="actionCommand" type="java.lang.String" value="HAPUS"/>
-                              </Properties>
-                              <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHapus_ObatActionPerformed"/>
-                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -1739,10 +1707,6 @@
                       <Color blue="99" green="99" red="0" type="rgb"/>
                     </Property>
                   </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                  </AuxValues>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -1771,10 +1735,6 @@
                   </Layout>
                   <SubComponents>
                     <Container class="javax.swing.JPanel" name="jPanel20">
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-                      </AuxValues>
 
                       <Layout>
                         <DimensionLayout dim="0">
@@ -1795,15 +1755,15 @@
                                               <Component id="txtField_TanggalTransaksi" alignment="1" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jButton_Cari_Transaksi" min="-2" pref="84" max="-2" attributes="0"/>
+                                          <Component id="jButton_Cari_Obat1" min="-2" pref="84" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="btnTambah_Transaksi" min="-2" pref="166" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnHapus_Transaksi" min="-2" pref="166" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnKembali_Transaksi" min="-2" pref="166" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="998" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="1004" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -1817,7 +1777,7 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel_idTransaksi" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtField_IdTransaksi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton_Cari_Transaksi" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButton_Cari_Obat1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1902,7 +1862,7 @@
                             <Property name="text" type="java.lang.String" value="Total Transaksi"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton_Cari_Transaksi">
+                        <Component class="javax.swing.JButton" name="jButton_Cari_Obat1">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Segoe UI" size="12" style="1"/>
@@ -1910,9 +1870,6 @@
                             <Property name="text" type="java.lang.String" value="Cari"/>
                             <Property name="toolTipText" type="java.lang.String" value=""/>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_Cari_TransaksiActionPerformed"/>
-                          </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtField_TotalTransaksi">
                         </Component>
@@ -1943,7 +1900,7 @@
                             <Component class="javax.swing.JTable" name="jTable_Transaksi">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="3" rowCount="0">
+                                  <Table columnCount="3" rowCount="4">
                                     <Column editable="true" title="ID Transaksi" type="java.lang.Object"/>
                                     <Column editable="true" title="Tanggal Transaksi" type="java.lang.Object"/>
                                     <Column editable="true" title="Total Transaksi" type="java.lang.Object"/>
