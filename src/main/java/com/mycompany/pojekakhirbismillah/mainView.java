@@ -3,19 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.pojekakhirbismillah;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -70,8 +74,6 @@ public class mainView extends javax.swing.JFrame {
             return;
         }
     }
-
-    JOptionPane.showMessageDialog(this, "ID Obat tidak ditemukan.");
 }
     
     private void cariObatByID() {
@@ -81,44 +83,17 @@ public class mainView extends javax.swing.JFrame {
     for (int i = 0; i < model_cariobat.getRowCount(); i++) {
         if (model_cariobat.getValueAt(i, 0).toString().equalsIgnoreCase(cariID)) {
             jTable_Obat.setRowSelectionInterval(i, i);
+
+          private void cariManagement() {
+    String cariID = idRuanganManagementRuangan.getText().trim();
+    DefaultTableModel model_carimanagement = (DefaultTableModel) tableManagementRuangan.getModel();
+    
+    for (int i = 0; i < model_carimanagement.getRowCount(); i++) {
+        if (model_carimanagement.getValueAt(i, 0).toString().equalsIgnoreCase(cariID)) {
+            tableManagementRuangan.setRowSelectionInterval(i, i);
             return;
         }
     }
-
-    JOptionPane.showMessageDialog(this, "ID Obat tidak ditemukan.");
-}
-
-private Map<String, Integer> hargaObat;
-    /**
-     * Creates new form mainView
-     */
-     private void updateHarga() {
-    if (jCheckBox_Tersedia_Obat.isSelected()) {
-        jTextField_Harga_Obat.setText("0");
-        return;
-    }
-
-    String namaObat = (String) jComboBox_Nama_Obat.getSelectedItem();
-    int hargaSatuan = hargaObat.getOrDefault(namaObat, 0);
-    int jumlah = (int) jSpinner_BanyakObat.getValue();
-    int total = hargaSatuan * jumlah;
-
-    jTextField_Harga_Obat.setText(String.valueOf(total));
-}
-    private void toggleKetersediaan() {
-    boolean tidakTersedia = jCheckBox_Tersedia_Obat.isSelected();
-
-    jSpinner_BanyakObat.setEnabled(!tidakTersedia);
-    jTextField_Harga_Obat.setEnabled(!tidakTersedia);
-
-    if (tidakTersedia) {
-        jTextField_Harga_Obat.setText("0");
-        jSpinner_BanyakObat.setValue(0);
-    } else {
-        updateHarga();
-    }
-}
-
 
 
     public mainView() {
@@ -135,6 +110,111 @@ private Map<String, Integer> hargaObat;
             if (modelbutton_cariobat.getValueAt(i, 0).toString().equalsIgnoreCase(cariID)) {
                 jTable_Obat.setRowSelectionInterval(i, i); // pilih baris
                 jTable_Obat.scrollRectToVisible(jTable_Obat.getCellRect(i + 7, 0, true)); // scroll ke sana
+private Map<String, Integer> hargaObat;
+
+private void updateHarga() {
+    if (jCheckBox_Tersedia_Obat.isSelected()) {
+        jTextField_Harga_Obat.setText("0");
+        return;
+    }
+
+    String namaObat = (String) jComboBox_Nama_Obat.getSelectedItem();
+    int hargaSatuan = hargaObat.getOrDefault(namaObat, 0);
+    int jumlah = (int) jSpinner_BanyakObat.getValue();
+    int total = hargaSatuan * jumlah;
+
+    jTextField_Harga_Obat.setText(String.valueOf(total));
+}
+
+private void toggleKetersediaan() {
+    boolean tidakTersedia = jCheckBox_Tersedia_Obat.isSelected();
+
+    jSpinner_BanyakObat.setEnabled(!tidakTersedia);
+    jTextField_Harga_Obat.setEnabled(!tidakTersedia);
+
+    if (tidakTersedia) {
+        jTextField_Harga_Obat.setText("0");
+        jSpinner_BanyakObat.setValue(0);
+    } else {
+        updateHarga();
+    }
+}
+
+private void cariRekam() {
+    String cariID = IDRekamMedisTextFieldRekamMedis.getText().trim();
+    DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+    
+    for (int i = 0; i < model.getRowCount(); i++) {
+        if (model.getValueAt(i, 0).toString().equalsIgnoreCase(cariID)) {
+            tableRekamMedis.setRowSelectionInterval(i, i);
+            return;
+        }
+    }
+
+    JOptionPane.showMessageDialog(this, "ID Rekam Medis tidak ditemukan.");
+}
+
+private void tambahRuangan() {
+    String id = idRuanganManagementRuangan.getText().trim();
+    String tipe = jComboBoxTipeRuanganManagementRUangan.getSelectedItem().toString();
+    String harga = tfHargaRuanganManagementRuangan.getText().trim();
+
+    if (id.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "ID Ruangan tidak boleh kosong!");
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) tableManagementRuangan.getModel();
+    model.addRow(new Object[]{id, tipe, harga});
+}
+
+private void TambahRekam() {
+    String id = IDRekamMedisTextFieldRekamMedis.getText().trim();
+    String nama = tanggalTextFieldRekamMedis.getText().trim();
+    String diagnosa = TextFieldDiagnosaRekamMedis.getText().trim();
+    
+    DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+    model.addRow(new Object[]{id, nama, diagnosa});
+}
+
+    public mainView() {
+    initComponents();
+
+    jButton_Cari_Obat.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+            String cariID = txtField_ID_OBAT.getText().trim();
+            DefaultTableModel modelbutton_cariobat = (DefaultTableModel) jTable_Obat.getModel();
+
+            for (int i = 0; i < modelbutton_cariobat.getRowCount(); i++) {
+                if (modelbutton_cariobat.getValueAt(i, 0).toString().equalsIgnoreCase(cariID)) {
+                    jTable_Obat.setRowSelectionInterval(i, i);
+                    jTable_Obat.scrollRectToVisible(jTable_Obat.getCellRect(i + 7, 0, true));
+                    return;
+                }
+            }
+
+            JOptionPane.showMessageDialog(this, "ID Obat tidak ditemukan.");
+        }
+    });
+
+    btnCariRekamMedis.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+            String cariID = IDRekamMedisTextFieldRekamMedis.getText().trim();
+            DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (model.getValueAt(i, 0).toString().equalsIgnoreCase(cariID)) {
+                    tableRekamMedis.setRowSelectionInterval(i, i);
+                    tableRekamMedis.scrollRectToVisible(tableRekamMedis.getCellRect(i + 5, 4, true));
+                    return;
+                }
+            }
+
+            JOptionPane.showMessageDialog(this, "ID Rekam Medis tidak ditemukan.");
+        }
+    });
+}
+
                 ditemukan = true;
                 break;
             }
@@ -189,11 +269,19 @@ private Map<String, Integer> hargaObat;
     
     jSpinner_BanyakObat.setModel(new SpinnerNumberModel(0, 0, 100, 1));
     
-    DefaultTableModel model_tabel = new DefaultTableModel(
+    DefaultTableModel model_tabelObat = new DefaultTableModel(
     new Object[]{"ID Obat", "Nama Obat", "Ketersediaan Obat", "Banyak Obat", "Harga Obat"}, 0);
-    jTable_Obat.setModel(model_tabel);
+    jTable_Obat.setModel(model_tabelObat);
 
+            JOptionPane.showMessageDialog(null, "ID Ruangan tidak ditemukan.");
+        }
+        }
+});
+        DefaultTableModel model_tabelDiagnosa = new DefaultTableModel(
+    new Object[]{"ID Rekam Medis", "Tanggal", "Diagnosa"}, 0);
+    tableRekamMedis.setModel(model_tabelDiagnosa);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -267,7 +355,21 @@ private Map<String, Integer> hargaObat;
         btnHapus1 = new javax.swing.JButton();
         btnKembali1 = new javax.swing.JButton();
         rekamMedisPanel = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        NamelLabel7RekamMedis = new javax.swing.JLabel();
+        NamelPanel9RekamMedis = new javax.swing.JPanel();
+        Namelanel10 = new javax.swing.JPanel();
+        idRekamMedisRekamMeidis = new javax.swing.JLabel();
+        tanggalRekamMedis = new javax.swing.JLabel();
+        diagnosaRekamMedis = new javax.swing.JLabel();
+        tanggalTextFieldRekamMedis = new javax.swing.JTextField();
+        TextFieldDiagnosaRekamMedis = new javax.swing.JTextField();
+        IDRekamMedisTextFieldRekamMedis = new javax.swing.JTextField();
+        btnCariRekamMedis = new javax.swing.JButton();
+        btnTAMBAHRekamMedis = new javax.swing.JButton();
+        btnHAPUSRekamMedis = new javax.swing.JButton();
+        btNKEMBALIRekamMedis = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableRekamMedis = new javax.swing.JTable();
         obatPanel = new javax.swing.JPanel();
         javax.swing.JLabel ArkhanJpanel8 = new javax.swing.JLabel();
         javax.swing.JPanel jPanel_IJOIJO_OBAT = new javax.swing.JPanel();
@@ -309,6 +411,20 @@ private Map<String, Integer> hargaObat;
         jTable_Transaksi = new javax.swing.JTable();
         ruanganPanel = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        NamelPanel9ManagementRuangan = new javax.swing.JPanel();
+        Namelpanel11ManajementRuangan = new javax.swing.JPanel();
+        idRuanganjlabelManagementRuangan = new javax.swing.JLabel();
+        tipeRuanganManajementRuangan = new javax.swing.JLabel();
+        hargaRuanganManagementRuangan = new javax.swing.JLabel();
+        tfHargaRuanganManagementRuangan = new javax.swing.JTextField();
+        idRuanganManagementRuangan = new javax.swing.JTextField();
+        btnCariManagementRuangan = new javax.swing.JButton();
+        btnTAMBAHManagementRuangan = new javax.swing.JButton();
+        btnHAPUSManagementRuangan = new javax.swing.JButton();
+        btNKEMBALIManagementRUangan = new javax.swing.JButton();
+        jComboBoxTipeRuanganManagementRUangan = new javax.swing.JComboBox<>();
+        tableManagementRuangan = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1154,10 +1270,17 @@ private Map<String, Integer> hargaObat;
 
         jTable_Obat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                },
+                .addGroup(Namelanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTAMBAHRekamMedis, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHAPUSRekamMedis, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btNKEMBALIRekamMedis, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tableRekamMedis.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
             },
             new String [] {
                 "ID Obat", "Nama Obat", "Ketersediaan Obat", "Banyak Obat", "Harga Obat"
@@ -1175,11 +1298,14 @@ private Map<String, Integer> hargaObat;
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2)
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        NamelPanel9RekamMedisLayout.setVerticalGroup(
+            NamelPanel9RekamMedisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NamelPanel9RekamMedisLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Namelanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel_IJOIJO_OBATLayout = new javax.swing.GroupLayout(jPanel_IJOIJO_OBAT);
@@ -1325,40 +1451,98 @@ private Map<String, Integer> hargaObat;
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jTable_Transaksi.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+javax.swing.JTabbedPane tabbedPane = new javax.swing.JTabbedPane();
 
-            },
-            new String [] {
-                "ID Transaksi", "Tanggal Transaksi", "Total Transaksi"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable_Transaksi);
-        if (jTable_Transaksi.getColumnModel().getColumnCount() > 0) {
-            jTable_Transaksi.getColumnModel().getColumn(0).setMinWidth(200);
-            jTable_Transaksi.getColumnModel().getColumn(0).setMaxWidth(200);
-        }
+javax.swing.JPanel jPanel_Transaksi = new javax.swing.JPanel();
+javax.swing.JPanel jPanel_21 = new javax.swing.JPanel();
+javax.swing.JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
+javax.swing.JTable jTable_Transaksi = new javax.swing.JTable();
 
-        javax.swing.GroupLayout jPanel_21Layout = new javax.swing.GroupLayout(jPanel_21);
-        jPanel_21.setLayout(jPanel_21Layout);
-        jPanel_21Layout.setHorizontalGroup(
-            jPanel_21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        jPanel_21Layout.setVerticalGroup(
-            jPanel_21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
-        );
+jTable_Transaksi.setModel(new javax.swing.table.DefaultTableModel(
+    new Object [][] {},
+    new String [] {
+        "ID Transaksi", "Tanggal Transaksi", "Total Transaksi"
+    }
+));
+jScrollPane3.setViewportView(jTable_Transaksi);
 
-        javax.swing.GroupLayout jPanel_TransaksiLayout = new javax.swing.GroupLayout(jPanel_Transaksi);
-        jPanel_Transaksi.setLayout(jPanel_TransaksiLayout);
-        jPanel_TransaksiLayout.setHorizontalGroup(
-            jPanel_TransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_TransaksiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel_TransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel_21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+if (jTable_Transaksi.getColumnModel().getColumnCount() > 0) {
+    jTable_Transaksi.getColumnModel().getColumn(0).setMinWidth(200);
+    jTable_Transaksi.getColumnModel().getColumn(0).setMaxWidth(200);
+}
+
+javax.swing.GroupLayout jPanel_21Layout = new javax.swing.GroupLayout(jPanel_21);
+jPanel_21.setLayout(jPanel_21Layout);
+jPanel_21Layout.setHorizontalGroup(
+    jPanel_21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+);
+jPanel_21Layout.setVerticalGroup(
+    jPanel_21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+);
+
+javax.swing.GroupLayout jPanel_TransaksiLayout = new javax.swing.GroupLayout(jPanel_Transaksi);
+jPanel_Transaksi.setLayout(jPanel_TransaksiLayout);
+jPanel_TransaksiLayout.setHorizontalGroup(
+    jPanel_TransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_TransaksiLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(jPanel_21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addContainerGap())
+);
+jPanel_TransaksiLayout.setVerticalGroup(
+    jPanel_TransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(jPanel_TransaksiLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(jPanel_21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addContainerGap())
+);
+
+javax.swing.JPanel NamelPanel9ManagementRuangan = new javax.swing.JPanel();
+javax.swing.JPanel Namelpanel11ManajementRuangan = new javax.swing.JPanel();
+javax.swing.JScrollPane jScrollPane4 = new javax.swing.JScrollPane();
+javax.swing.JTable tableManagementRuangan = new javax.swing.JTable();
+
+tableManagementRuangan.setModel(new javax.swing.table.DefaultTableModel(
+    new Object [][] {},
+    new String [] {
+        "ID Ruangan", "Tipe Ruangan", "Harga Ruangan"
+    }
+));
+jScrollPane4.setViewportView(tableManagementRuangan);
+
+javax.swing.GroupLayout NamelPanel9ManagementRuanganLayout = new javax.swing.GroupLayout(NamelPanel9ManagementRuangan);
+NamelPanel9ManagementRuangan.setLayout(NamelPanel9ManagementRuanganLayout);
+NamelPanel9ManagementRuanganLayout.setHorizontalGroup(
+    NamelPanel9ManagementRuanganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(NamelPanel9ManagementRuanganLayout.createSequentialGroup()
+        .addGap(12, 12, 12)
+        .addGroup(NamelPanel9ManagementRuanganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4)
+            .addComponent(Namelpanel11ManajementRuangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addGap(12, 12, 12))
+);
+NamelPanel9ManagementRuanganLayout.setVerticalGroup(
+    NamelPanel9ManagementRuanganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(NamelPanel9ManagementRuanganLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(Namelpanel11ManajementRuangan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+        .addContainerGap())
+);
+
+tabbedPane.addTab("Transaksi", jPanel_Transaksi);
+tabbedPane.addTab("Manajemen Ruangan", NamelPanel9ManagementRuangan);
+
+javax.swing.JFrame frame = new javax.swing.JFrame("Aplikasi Hotel");
+frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+frame.getContentPane().add(tabbedPane);
+frame.setSize(800, 600);
+frame.setLocationRelativeTo(null);
+frame.setVisible(true);
+
                 .addContainerGap())
         );
         jPanel_TransaksiLayout.setVerticalGroup(
@@ -1390,7 +1574,6 @@ private Map<String, Integer> hargaObat;
                 .addComponent(arkhan_jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel_Transaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
         );
 
         mainPanel.add(transaksiPanel, "card7");
@@ -1600,6 +1783,29 @@ private Map<String, Integer> hargaObat;
 
     private void btnKembali_TransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembali_TransaksiActionPerformed
         mainPanel.removeAll();
+    private void btnCariRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariRekamMedisActionPerformed
+    btnCariRekamMedis.addActionListener(e -> cariRekam());        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCariRekamMedisActionPerformed
+
+    private void btnTAMBAHRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTAMBAHRekamMedisActionPerformed
+        TambahRekam();
+            // TODO add your handling code here:
+    }//GEN-LAST:event_btnTAMBAHRekamMedisActionPerformed
+
+    private void btnHAPUSRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAPUSRekamMedisActionPerformed
+    int selectedRow = tableRekamMedis.getSelectedRow();
+
+        if (selectedRow != -1) {
+            DefaultTableModel model_RekamMedis = (DefaultTableModel) tableRekamMedis.getModel();
+            model_RekamMedis.removeRow(selectedRow);
+        } else {
+            JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus!");
+        }
+        // TODO add your handling de here:
+    }//GEN-LAST:event_btnHAPUSRekamMedisActionPerformed
+
+    private void btNKEMBALIRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNKEMBALIRekamMedisActionPerformed
+    mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
         
@@ -1648,6 +1854,26 @@ jCheckBox_Tersedia_Obat.addActionListener(e -> toggleKetersediaan());
     private void txtField_ID_OBATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtField_ID_OBATActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtField_ID_OBATActionPerformed
+    private void btnCariManagementRuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariManagementRuanganActionPerformed
+        btnCariManagementRuangan.addActionListener(e -> cariManagement());        // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCariManagementRuanganActionPerformed
+
+    private void btnTAMBAHManagementRuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTAMBAHManagementRuanganActionPerformed
+    tambahRuangan();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTAMBAHManagementRuanganActionPerformed
+
+    private void btnHAPUSManagementRuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAPUSManagementRuanganActionPerformed
+    int selectedRow = tableManagementRuangan.getSelectedRow();
+
+        if (selectedRow != -1) {
+            DefaultTableModel model_Management = (DefaultTableModel) tableManagementRuangan.getModel();
+            model_Management.removeRow(selectedRow);
+        } else {
+            JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus!");
+        }     // TODO add your handling code here:
+    }//GEN-LAST:event_btnHAPUSManagementRuanganActionPerformed
 
     private void jButton_Cari_ObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Cari_ObatActionPerformed
         jButton_Cari_Obat.addActionListener(e -> cariObatByID());
@@ -1710,6 +1936,10 @@ jCheckBox_Tersedia_Obat.addActionListener(e -> toggleKetersediaan());
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel arkhan_jLabel9;
     private javax.swing.JPanel bodyPanel;
+    private javax.swing.JButton btnCariManagementRuangan;
+    private javax.swing.JButton btnCariRekamMedis;
+    private javax.swing.JButton btnHAPUSManagementRuangan;
+    private javax.swing.JButton btnHAPUSRekamMedis;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnHapus1;
     private javax.swing.JButton btnHapus_Obat;
@@ -1771,8 +2001,6 @@ jCheckBox_Tersedia_Obat.addActionListener(e -> toggleKetersediaan());
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner jSpinner_BanyakObat;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable_Obat;
     private javax.swing.JTable jTable_Transaksi;
     private javax.swing.JTextField jTextField_Harga_Obat;
     private javax.swing.JPanel mainPanel;
@@ -1789,6 +2017,12 @@ jCheckBox_Tersedia_Obat.addActionListener(e -> toggleKetersediaan());
     private javax.swing.JPanel pegawaiPanel;
     private javax.swing.JPanel rekamMedisPanel;
     private javax.swing.JPanel ruanganPanel;
+    protected javax.swing.JTable tableManagementRuangan;
+    protected javax.swing.JTable tableRekamMedis;
+    private javax.swing.JLabel tanggalRekamMedis;
+    private javax.swing.JTextField tanggalTextFieldRekamMedis;
+    private javax.swing.JTextField tfHargaRuanganManagementRuangan;
+    private javax.swing.JLabel tipeRuanganManajementRuangan;
     private javax.swing.JPanel transaksiPanel;
     private javax.swing.JTextField txtFieldAlamat;
     private javax.swing.JTextField txtFieldIDPasien1;
