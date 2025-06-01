@@ -13,6 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 
 
 /**
@@ -62,12 +67,32 @@ private void tambahRuangan() {
     model.addRow(new Object[]{id, tipe, harga});
 }
     private void TambahRekam() {
-        String id = IDRekamMedisTextFieldRekamMedis.getText().trim();
-        String nama = tanggalTextFieldRekamMedis.getText().trim();
-        String diagnosa = TextFieldDiagnosaRekamMedis.getText().trim();
-        
-        DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
-        model.addRow(new Object[]{id, nama, diagnosa});
+    String id = IDRekamMedisTextFieldRekamMedis.getText().trim();
+    String tanggal = tanggalTextFieldRekamMedis.getText().trim();
+    String diagnosa = TextFieldDiagnosaRekamMedis.getText().trim();
+
+    // Add to JTable
+    DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+    model.addRow(new Object[]{id, tanggal, diagnosa});
+
+    // Insert into database
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; // replace this
+    String password = "root"; // replace this
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "INSERT INTO RekamMedis (ID_REKAM_MEDIS, TANGGAL, DIAGNOSA) VALUES (?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        stmt.setString(2, tanggal);
+        stmt.setString(3, diagnosa);
+        stmt.executeUpdate();
+        System.out.println("Data berhasil disimpan ke database.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal menyimpan ke database: " + e.getMessage());
+    }
+
     }
     public mainView() {
         initComponents();
@@ -1558,6 +1583,7 @@ private void tambahRuangan() {
         //</editor-fold>
 
         /* Create and display the form */
+        KoneksiDB.getKoneksiDB();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new mainView().setVisible(true);
