@@ -5,6 +5,11 @@
 package com.mycompany.pojekakhirbismillah;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,8 +26,110 @@ import javax.swing.table.DefaultTableModel;
  * @author faruq
  */
 public class mainView extends javax.swing.JFrame {
+    private void loadDataRuangan() {
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; // replace this
+    String password = "root"; // replace this
+    DefaultTableModel model = (DefaultTableModel) tableManagementRuangan.getModel();
+    model.setRowCount(0); // clear tabel
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "SELECT * FROM RUANGAN";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("ID_RUANGAN");
+            String tipe = rs.getString("TIPE_RUANGAN");
+            String harga = rs.getString("HARGA_RUANGAN");
+
+            model.addRow(new Object[]{id, tipe, harga});
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat data ruangan: " + e.getMessage());
+    }
+}
+    private void loadDataTransaksi() {
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; 
+    String password = "root"; 
+    DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+    model.setRowCount(0); // Clear tabel
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+//        System.out.println("Koneksi berhasil, memuat data Rekam Medis...");
+        String sql = "SELECT * FROM Transaksi;"; 
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("ID_Transaksi");
+            String tanggal = rs.getString("TANGGAL");
+            String Total = rs.getString("TOTAL");
+
+            model.addRow(new Object[]{id, tanggal, Total});
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat data Transaksi: " + e.getMessage());
+    } 
+}
+    private void loadDataRekamMedis() {
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; 
+    String password = "root"; 
+    DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+    model.setRowCount(0); // Clear tabel
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+//        System.out.println("Koneksi berhasil, memuat data Rekam Medis...");
+        String sql = "SELECT * FROM RekamMedis;"; 
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("ID_REKAM_MEDIS");
+            String tanggal = rs.getString("TANGGAL");
+            String diagnosa = rs.getString("DIAGNOSA");
+
+            model.addRow(new Object[]{id, tanggal, diagnosa});
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat data Rekam Medis: " + e.getMessage());
+    } 
+}
+    private void loadDataInventaris() {
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; 
+    String password = "root"; 
+    DefaultTableModel model = (DefaultTableModel) jTable_Obat.getModel();
+    model.setRowCount(0); // Clear tabel
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+//        System.out.println("Koneksi berhasil, memuat data Rekam Medis...");
+        String sql = "SELECT * FROM Inventaris;"; 
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("ID_OBAT");
+            String nama = rs.getString("NAMA_OBAT");
+            boolean tidakTersedia = rs.getBoolean("TIDAK_TERSEDIA");
+            int jumlah = rs.getInt("JUMLAH");
+            String harga = rs.getString("HARGA");
+
+            model.addRow(new Object[]{id, nama, tidakTersedia, jumlah, harga});
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat data Inventaris: " + e.getMessage());
+    } 
+}
     DefaultTableModel model_TabelTransaksi;        
-    private void tambahKeTabel() {
+    private void tambahKeObat() {
     String idObat = ID_ObatTextField.getText();
     String namaObat = (String) jComboBoxNamaObat.getSelectedItem();
     String ketersediaan = JCheckBoxTidaktersedia.isSelected() ? "Tidak Tersedia" : "Tersedia";
@@ -81,20 +188,68 @@ private void tambahRuangan() {
         JOptionPane.showMessageDialog(this, "ID Ruangan tidak boleh kosong!");
         return;
     }
+    
 
     DefaultTableModel model = (DefaultTableModel) tableManagementRuangan.getModel();
     model.addRow(new Object[]{id, tipe, harga});
+    
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; // replace this
+    String password = "root"; // replace this
+    
+     try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "INSERT INTO Ruangan (ID_RUANGAN, TIPE_RUANGAN, HARGA_RUANGAN) VALUES (?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        stmt.setString(2, tipe);
+        stmt.setString(3, harga);
+        stmt.executeUpdate();
+        System.out.println("Data berhasil disimpan ke database.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal menyimpan ke database: " + e.getMessage());
+    }
 }
     private void TambahRekam() {
-        String id = IDRekamMedisTextFieldRekamMedis.getText().trim();
-        String nama = tanggalTextFieldRekamMedis.getText().trim();
-        String diagnosa = TextFieldDiagnosaRekamMedis.getText().trim();
-        
-        DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
-        model.addRow(new Object[]{id, nama, diagnosa});
+    String id = IDRekamMedisTextFieldRekamMedis.getText().trim();
+    String tanggal = tanggalTextFieldRekamMedis.getText().trim();
+    String diagnosa = TextFieldDiagnosaRekamMedis.getText().trim();
+
+    // Add to JTable
+    DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
+    model.addRow(new Object[]{id, tanggal, diagnosa});
+    
+
+    // Insert into database
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; // replace this
+    String password = "root"; // replace this
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "INSERT INTO RekamMedis (ID_REKAM_MEDIS, TANGGAL, DIAGNOSA) VALUES (?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        stmt.setString(2, tanggal);
+        stmt.setString(3, diagnosa);
+        stmt.executeUpdate();
+        System.out.println("Data berhasil disimpan ke database.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal menyimpan ke database: " + e.getMessage());
+    }
     }
     public mainView() {
         initComponents();
+        loadDataTransaksi();
+        loadDataRekamMedis();
+        loadDataRuangan();
+        loadDataInventaris();
+        addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowOpened(java.awt.event.WindowEvent evt) {
+            loadDataRekamMedis();
+        }
+    });
         model_TabelTransaksi = (DefaultTableModel) JTableTransaksi.getModel();
         for (String nama : namaObatList) {jComboBoxNamaObat.addItem(nama);}
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
@@ -1149,7 +1304,7 @@ private void tambahRuangan() {
             }
         });
 
-        jComboBoxNamaObat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        jComboBoxNamaObat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Obat" }));
         jComboBoxNamaObat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxNamaObatActionPerformed(evt);
@@ -1312,7 +1467,7 @@ private void tambahRuangan() {
         idTransaksi.setText("ID Transaksi");
 
         TanggalTransaksi.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
-        TanggalTransaksi.setText("Tanggaltransaksi");
+        TanggalTransaksi.setText("Tanggal Transaksi");
 
         TotalTransaksi.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
         TotalTransaksi.setText("Total Transaksi");
@@ -1884,19 +2039,42 @@ private void tambahRuangan() {
 
     private void btnTAMBAHRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTAMBAHRekamMedisActionPerformed
         TambahRekam();
+        loadDataRekamMedis();
             // TODO add your handling code here:
     }//GEN-LAST:event_btnTAMBAHRekamMedisActionPerformed
 
     private void btnHAPUSRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAPUSRekamMedisActionPerformed
     int selectedRow = tableRekamMedis.getSelectedRow();
+        loadDataRekamMedis();
+if (selectedRow != -1) {
+    String id = tableRekamMedis.getValueAt(selectedRow, 0).toString();
+    System.out.println("ID yang akan dihapus: [" + id + "]");
 
-        if (selectedRow != -1) {
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01";
+    String password = "root";
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "DELETE FROM RekamMedis WHERE ID_REKAM_MEDIS = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        int rowsAffected = stmt.executeUpdate();
+
+        if (rowsAffected > 0) {
+            // Hapus dari JTable setelah sukses hapus dari DB
             DefaultTableModel model = (DefaultTableModel) tableRekamMedis.getModel();
             model.removeRow(selectedRow);
+            System.out.println("Data berhasil dihapus dari database.");
         } else {
-            JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus!");
+            System.out.println("Data tidak ditemukan di database.");
         }
-        // TODO add your handling de here:
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal menghapus dari database: " + e.getMessage());
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus!");
+}
     }//GEN-LAST:event_btnHAPUSRekamMedisActionPerformed
 
     private void btNKEMBALIRekamMedisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNKEMBALIRekamMedisActionPerformed
@@ -1924,18 +2102,43 @@ private void tambahRuangan() {
 
     private void btnTAMBAHManagementRuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTAMBAHManagementRuanganActionPerformed
     tambahRuangan();
+    loadDataRuangan();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTAMBAHManagementRuanganActionPerformed
 
     private void btnHAPUSManagementRuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAPUSManagementRuanganActionPerformed
     int selectedRow = tableManagementRuangan.getSelectedRow();
+    
+    if (selectedRow != -1) {
+        String id = tableManagementRuangan.getValueAt(selectedRow, 0).toString(); // ambil ID dari baris yang dipilih
 
-        if (selectedRow != -1) {
-            DefaultTableModel model = (DefaultTableModel) tableManagementRuangan.getModel();
-            model.removeRow(selectedRow);
-        } else {
-            JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus!");
-        }     // TODO add your handling code here:
+        // Hapus dari JTable
+        DefaultTableModel model = (DefaultTableModel) tableManagementRuangan.getModel();
+        model.removeRow(selectedRow);
+
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+        String user = "naila01";
+        String password = "root";
+
+        // Hapus dari database
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            String sql = "DELETE FROM RUANGAN WHERE ID_RUANGAN = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, id);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Data berhasil dihapus dari database.");
+            } else {
+                System.out.println("Data tidak ditemukan di database.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal menghapus dari database: " + e.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus!");
+    }  // TODO add your handling code here:
     }//GEN-LAST:event_btnHAPUSManagementRuanganActionPerformed
 
     private void btNKEMBALIManagementRUanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNKEMBALIManagementRUanganActionPerformed
@@ -1970,29 +2173,91 @@ private void tambahRuangan() {
     }//GEN-LAST:event_jComboBoxTipeRuanganManagementRUanganActionPerformed
 
     private void btnTambahObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahObatActionPerformed
-        
+        loadDataInventaris();
         String id = ID_ObatTextField.getText().trim();
-        String nama = (String) jComboBoxNamaObat.getSelectedItem();
-        boolean tidakTersedia = JCheckBoxTidaktersedia.isSelected();
-        int jumlah = tidakTersedia ? 0 : (Integer) jSpinnerBanyakObat.getValue();
-        String harga = TextFieldHargaObat.getText().trim();
+String nama = (String) jComboBoxNamaObat.getSelectedItem();
+boolean tidakTersedia = JCheckBoxTidaktersedia.isSelected();
+int jumlah = tidakTersedia ? 0 : (Integer) jSpinnerBanyakObat.getValue();
+String harga = TextFieldHargaObat.getText().trim();
 
+if (id.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "ID Obat tidak boleh kosong!");
+    ID_ObatTextField.requestFocus();
+    return;
+}
+if (nama == null || nama.equals("Pilih Obat")) {
+    JOptionPane.showMessageDialog(this, "Silakan pilih Nama Obat!");
+    jComboBoxNamaObat.requestFocus();
+    return;
+}
+DefaultTableModel model_TambahinObat = (DefaultTableModel) jTable_Obat.getModel();
+model_TambahinObat.addRow(new Object[]{
+    id,
+    nama,
+    tidakTersedia ? "Tidak Tersedia" : "Tersedia",
+    jumlah,
+    harga
+});
 
-        DefaultTableModel model_TambahinObat = (DefaultTableModel) jTable_Obat.getModel();
-        model_TambahinObat.addRow(new Object[]{id, nama, tidakTersedia ? "Tidak Tersedia" : "Tersedia", jumlah, harga});
-        ID_ObatTextField.setText("");
+ID_ObatTextField.setText("");
+TextFieldHargaObat.setText("");
+jSpinnerBanyakObat.setValue(0);
+JCheckBoxTidaktersedia.setSelected(false);
+jComboBoxNamaObat.setSelectedIndex(0);
+
+String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01"; // replace this
+    String password = "root"; // replace this
+    
+     try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "INSERT INTO Inventaris (ID_OBAT, NAMA_OBAT, TIDAK_TERSEDIA, JUMLAH, HARGA) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        stmt.setString(2, nama);
+        stmt.setBoolean(3, tidakTersedia);
+        stmt.setInt(4, jumlah);
+        stmt.setString(5, harga);
+        stmt.executeUpdate();
+        System.out.println("Data berhasil disimpan ke database.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal menyimpan ke database: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnTambahObatActionPerformed
 
     private void btnHapusObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusObatActionPerformed
-        btnHapusObat.addActionListener(e -> {
-        int selectedRow = jTable_Obat.getSelectedRow();
-            if (selectedRow != -1) {
-                DefaultTableModel model = (DefaultTableModel) jTable_Obat.getModel();
-                    model.removeRow(selectedRow);
-                } else {
-                JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus terlebih dahulu.");
+       loadDataInventaris();
+       btnHapusObat.addActionListener(e -> {
+    int selectedRow = jTable_Obat.getSelectedRow();
+    if (selectedRow != -1) {
+        DefaultTableModel model = (DefaultTableModel) jTable_Obat.getModel();
+        
+        String idObat = (String) model.getValueAt(selectedRow, 0);
+
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+        String user = "naila01";
+        String password = "root";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            String sql = "DELETE FROM Inventaris WHERE ID_OBAT = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, idObat);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                model.removeRow(selectedRow);
+                JOptionPane.showMessageDialog(null, "Obat berhasil dihapus dari database dan tabel.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Data tidak ditemukan di database.");
             }
-        });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal menghapus data: " + ex.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus terlebih dahulu.");
+    }
+});
     }//GEN-LAST:event_btnHapusObatActionPerformed
 
     private void btNKembaliObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNKembaliObatActionPerformed
@@ -2090,6 +2355,7 @@ private void tambahRuangan() {
     }//GEN-LAST:event_btnCariTransaksiActionPerformed
 
     private void btnTAMBAHTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTAMBAHTransaksiActionPerformed
+    loadDataTransaksi();
     String id = JTextFieldIDTransaksi.getText().trim();
     String tanggal = JTextFieldTanggalTransaksi.getText().trim();
     String total = JTextFieldTotalTransaksi.getText().trim();
@@ -2104,15 +2370,58 @@ private void tambahRuangan() {
     JTextFieldIDTransaksi.setText("");
     JTextFieldTanggalTransaksi.setText("");
     JTextFieldTotalTransaksi.setText("");
+    
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+    String user = "naila01";
+    String password = "root"; 
+
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String sql = "INSERT INTO Transaksi (ID_TRANSAKSI, TANGGAL, TOTAL) VALUES (?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        stmt.setString(2, tanggal);
+        stmt.setString(3, total);
+        stmt.executeUpdate();
+        System.out.println("Data berhasil disimpan ke database.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal menyimpan ke database: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnTAMBAHTransaksiActionPerformed
 
     private void btnHAPUSTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHAPUSTransaksiActionPerformed
+    loadDataTransaksi();
+    btnHAPUSTransaksi.addActionListener(e -> {
     int selectedRow = JTableTransaksi.getSelectedRow();
     if (selectedRow != -1) {
-        model_TabelTransaksi.removeRow(selectedRow);
+        DefaultTableModel model = (DefaultTableModel) JTableTransaksi.getModel();
+        
+        String IDTransaksi = (String) model.getValueAt(selectedRow, 0);
+
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd;encrypt=true;trustServerCertificate=true;";
+        String user = "naila01";
+        String password = "root";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            String sql = "DELETE FROM Transaksi WHERE ID_TRANSAKSI = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, IDTransaksi);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                model.removeRow(selectedRow);
+                JOptionPane.showMessageDialog(null, "Transaksi berhasil dihapus dari database dan tabel.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Data tidak ditemukan di database.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal menghapus data: " + ex.getMessage());
+        }
     } else {
-        JOptionPane.showMessageDialog(this, "Pilih baris yang ingin dihapus.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Pilih baris yang ingin dihapus terlebih dahulu.");
     }
+}); 
     }//GEN-LAST:event_btnHAPUSTransaksiActionPerformed
 
     private void btNKEMBALITransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNKEMBALITransaksiActionPerformed
@@ -2268,7 +2577,7 @@ private void tambahRuangan() {
     private javax.swing.JPanel rekamMedisPanel;
     private javax.swing.JPanel ruanganPanel;
     protected javax.swing.JTable tableManagementRuangan;
-    protected javax.swing.JTable tableRekamMedis;
+    private javax.swing.JTable tableRekamMedis;
     private javax.swing.JLabel tanggalRekamMedis;
     private javax.swing.JTextField tanggalTextFieldRekamMedis;
     private javax.swing.JTextField tfHargaRuanganManagementRuangan;
